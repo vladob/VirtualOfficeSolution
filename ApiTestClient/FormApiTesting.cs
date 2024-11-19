@@ -27,6 +27,7 @@ namespace ApiTestClient
                 // Fetch input values
                 var fromDate = fromDatePicker.Value;
                 var toDate = toDatePicker.Value;
+                // CompanyId text box missing
 
                 // Fetch documents from API
                 var documents = await _dokladoService.GetReceiptsAsync(fromDate);

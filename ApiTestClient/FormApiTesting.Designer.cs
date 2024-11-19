@@ -37,6 +37,7 @@ namespace ApiTestClient
             dataGridViewResult = new DataGridView();
             fromDatePicker = new DateTimePicker();
             toDatePicker = new DateTimePicker();
+            comboBoxCompany = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewResult).BeginInit();
             SuspendLayout();
             // 
@@ -61,7 +62,7 @@ namespace ApiTestClient
             // lblFromDate
             // 
             lblFromDate.AutoSize = true;
-            lblFromDate.Location = new Point(12, 42);
+            lblFromDate.Location = new Point(19, 80);
             lblFromDate.Name = "lblFromDate";
             lblFromDate.Size = new Size(80, 20);
             lblFromDate.TabIndex = 2;
@@ -70,7 +71,7 @@ namespace ApiTestClient
             // lblToDate
             // 
             lblToDate.AutoSize = true;
-            lblToDate.Location = new Point(272, 42);
+            lblToDate.Location = new Point(274, 80);
             lblToDate.Name = "lblToDate";
             lblToDate.Size = new Size(62, 20);
             lblToDate.TabIndex = 4;
@@ -90,16 +91,16 @@ namespace ApiTestClient
             // 
             dataGridViewResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewResult.Location = new Point(12, 72);
+            dataGridViewResult.Location = new Point(12, 108);
             dataGridViewResult.Name = "dataGridViewResult";
             dataGridViewResult.RowHeadersWidth = 51;
-            dataGridViewResult.Size = new Size(642, 355);
+            dataGridViewResult.Size = new Size(855, 331);
             dataGridViewResult.TabIndex = 7;
             // 
             // fromDatePicker
             // 
             fromDatePicker.Format = DateTimePickerFormat.Short;
-            fromDatePicker.Location = new Point(113, 37);
+            fromDatePicker.Location = new Point(120, 75);
             fromDatePicker.Name = "fromDatePicker";
             fromDatePicker.Size = new Size(148, 27);
             fromDatePicker.TabIndex = 8;
@@ -108,17 +109,26 @@ namespace ApiTestClient
             // toDatePicker
             // 
             toDatePicker.Format = DateTimePickerFormat.Short;
-            toDatePicker.Location = new Point(358, 37);
+            toDatePicker.Location = new Point(360, 75);
             toDatePicker.Name = "toDatePicker";
             toDatePicker.Size = new Size(148, 27);
             toDatePicker.TabIndex = 9;
-            toDatePicker.Value = DateTime.Now;
+            toDatePicker.Value = new DateTime(2024, 11, 19, 10, 46, 30, 592);
+            // 
+            // comboBoxCompany
+            // 
+            comboBoxCompany.FormattingEnabled = true;
+            comboBoxCompany.Location = new Point(27, 41);
+            comboBoxCompany.Name = "comboBoxCompany";
+            comboBoxCompany.Size = new Size(241, 28);
+            comboBoxCompany.TabIndex = 10;
             // 
             // FormApiTesting
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(665, 437);
+            ClientSize = new Size(878, 449);
+            Controls.Add(comboBoxCompany);
             Controls.Add(toDatePicker);
             Controls.Add(fromDatePicker);
             Controls.Add(dataGridViewResult);
@@ -144,5 +154,6 @@ namespace ApiTestClient
         private DataGridView dataGridViewResult;
         private DateTimePicker fromDatePicker;
         private DateTimePicker toDatePicker;
+        private ComboBox comboBoxCompany;
     }
 }
