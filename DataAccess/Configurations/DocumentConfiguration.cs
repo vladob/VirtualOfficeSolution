@@ -11,6 +11,7 @@ namespace DataAccess.Configurations
             builder.ToTable("Documents");
 
             builder.HasKey(d => d.Id);
+            builder.Property(d => d.ScanedForCompany).HasMaxLength(20).IsRequired(false);
             builder.Property(d => d.DocumentErpId).HasMaxLength(100).IsRequired(false);
             builder.Property(d => d.ReceiptUID).HasMaxLength(100).IsRequired(false);
             builder.Property(d => d.Currency).HasMaxLength(20).IsRequired(false);

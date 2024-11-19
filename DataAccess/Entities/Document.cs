@@ -8,6 +8,7 @@ namespace DataAccess.Entities
         private string? accountingCode1;
 
         public int Id { get; set; } // Primary Key
+        public string? ScanedForCompany { get; set; }
         public string? DocumentErpId { get; set; }
         public string? Type { get; set; }
         public string? ReceiptUID { get; set; }
