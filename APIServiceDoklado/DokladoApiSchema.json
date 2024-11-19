@@ -1,0 +1,1425 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Doklado API",
+    "description": "This documentation describes the Doklado API.",
+    "contact": {
+      "email": "info@doklado.sk"
+    },
+    "version": "2024.9.30"
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api-gateway-prod-europe-west-1-7epuecvu.ew.gateway.dev"
+    }
+  ],
+  "paths": {
+    "/v1/documents": {
+      "post": {
+        "summary": "Returns documents for selected date range",
+        "tags": [
+          "Documents"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "Input parameters for export",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v1/documents/setExported": {
+      "post": {
+        "summary": "Set exported flag for documents",
+        "tags": [
+          "Documents"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "Array of document ids",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataSetExported"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSimple"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v2/documents/setExported": {
+      "post": {
+        "summary": "Set exported flag for documents",
+        "tags": [
+          "Documents"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "Array of exportData",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataSetExportedV2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSimple"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v1/organization/accounting-settings/import": {
+      "post": {
+        "summary": "Set accountig software settings",
+        "tags": [
+          "Organization"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "Input parameters for export",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataAccountingSoftwareImport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSimple"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v1/documents/getAttachments": {
+      "post": {
+        "summary": "Get attachments public download urls",
+        "tags": [
+          "Documents"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "documentId",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataGetAttachments"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSimple"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v2/documents/attachments/get": {
+      "post": {
+        "summary": "Get attachments public download urls V2",
+        "tags": [
+          "Documents"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "requestBody": {
+          "description": "documentIds for now only one object is supported",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataGetAttachmentsV2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseSimple"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/GetAttachmentsV2SuccesfullResponse"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server invocation error",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InputParameters": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "example": "47847786",
+            "description": "Company identification number (IČO)"
+          },
+          "isExported": {
+            "type": "boolean",
+            "example": false,
+            "description": "Get only documents with isExported status.",
+            "nullable": true
+          },
+          "dateFrom": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Export documents from date.",
+            "nullable": true
+          },
+          "dateLastUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last updated time",
+            "nullable": true
+          },
+          "dateTo": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Export documents until date.",
+            "nullable": true
+          },
+          "dateType": {
+            "type": "string",
+            "description": "Order by document issue date or by document creation date.",
+            "nullable": true,
+            "enum": [
+              "create",
+              "issue"
+            ]
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true,
+            "description": "Token used for paggination"
+          }
+        }
+      },
+      "AccountingSettings": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "accountingItem": {
+            "$ref": "#/components/schemas/AccountingItem"
+          },
+          "numericCode": {
+            "$ref": "#/components/schemas/NumericCode"
+          },
+          "cashRegister": {
+            "$ref": "#/components/schemas/CashRegister"
+          },
+          "projects": {
+            "$ref": "#/components/schemas/Project"
+          },
+          "order": {
+            "$ref": "#/components/schemas/Order"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "expenditureCenter": {
+            "$ref": "#/components/schemas/ExpenditureCenter"
+          },
+          "generalDocumentAgenda": {
+            "$ref": "#/components/schemas/GeneralDocumentAgenda"
+          },
+          "predefinedNote": {
+            "$ref": "#/components/schemas/PredefinedNote"
+          },
+          "classificationVat": {
+            "$ref": "#/components/schemas/ClassificationVat"
+          }
+        }
+      },
+      "InputDataAccountingSoftwareImport": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "organizationId": {
+                "type": "string",
+                "description": "Organization ID (IČO)"
+              },
+              "accountingItems": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AccountingItem"
+                }
+              },
+              "numericCodes": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/NumericCode"
+                }
+              },
+              "cashRegisters": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/CashRegister"
+                }
+              },
+              "projects": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              },
+              "orders": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              },
+              "activities": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Activity"
+                }
+              },
+              "expenditureCenters": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ExpenditureCenter"
+                }
+              },
+              "generalDocumentAgendas": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/GeneralDocumentAgenda"
+                }
+              },
+              "predefinedNotes": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/PredefinedNote"
+                }
+              },
+              "classificationVat": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ClassificationVat"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AccountingItem": {
+        "type": "object",
+        "nullable": true,
+        "description": "Účtovná položka",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "Naklady",
+            "type": "string"
+          },
+          "code": {
+            "example": "2N",
+            "type": "string"
+          },
+          "resourceType": {
+            "type": "string",
+            "enum": [
+              "receipt",
+              "invoice",
+              "other",
+              "undefined"
+            ]
+          }
+        }
+      },
+      "NumericCode": {
+        "type": "object",
+        "nullable": true,
+        "description": "Číselný rad",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "domestic",
+            "type": "string"
+          },
+          "name": {
+            "example": "Vseobecny ciselny rad",
+            "type": "string"
+          },
+          "paymentType": {
+            "$ref": "#/components/schemas/PaymentType"
+          }
+        }
+      },
+      "CashRegister": {
+        "type": "object",
+        "nullable": true,
+        "description": "Pokladna",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "cash_register",
+            "type": "string"
+          },
+          "name": {
+            "example": "Pokladna EU",
+            "type": "string"
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "nullable": true,
+        "description": "Zakazka",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization"
+          },
+          "value": {
+            "example": "order_bridge",
+            "type": "string"
+          },
+          "code": {
+            "example": "COM",
+            "type": "string"
+          },
+          "name": {
+            "example": "order 1",
+            "type": "string",
+            "description": "order name"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "nullable": true,
+        "description": "Projekt",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "project_ZA",
+            "type": "string"
+          },
+          "note": {
+            "nullable": true,
+            "example": "Stavba mostu",
+            "type": "string"
+          }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "nullable": true,
+        "description": "Cinnost (pre uct. sw tangram Kalkulacna polozka)",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 2
+          },
+          "value": {
+            "example": "activity_test",
+            "type": "string"
+          },
+          "code": {
+            "example": "JULO",
+            "type": "string"
+          }
+        }
+      },
+      "ExpenditureCenter": {
+        "type": "object",
+        "nullable": true,
+        "description": "Nakladove stredisko",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "expenditure center",
+            "type": "string"
+          },
+          "code": {
+            "example": "EXIT",
+            "type": "string"
+          }
+        }
+      },
+      "GeneralDocumentAgenda": {
+        "type": "object",
+        "nullable": true,
+        "description": "Typ dokladu",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "name": {
+            "example": "document type",
+            "type": "string"
+          },
+          "code": {
+            "example": "EXIT",
+            "type": "string"
+          }
+        }
+      },
+      "ClassificationVat": {
+        "type": "object",
+        "nullable": true,
+        "description": "Clenenie DPH",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "name": {
+            "example": "document type",
+            "type": "string"
+          },
+          "code": {
+            "example": "EXIT",
+            "type": "string"
+          },
+          "validFrom": {
+            "type": "string",
+            "nullable": true,
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "nullable": true,
+            "format": "date-time"
+          },
+          "isReverseCharge": {
+            "example": true,
+            "nullable": true,
+            "type": "boolean"
+          }
+        }
+      },
+      "PredefinedNote": {
+        "type": "object",
+        "nullable": true,
+        "description": "Preddefinované poznámky",
+        "properties": {
+          "accountingSoftwareId": {
+            "type": "number",
+            "description": "Parameter for pairing accounting setting with existing data in organization",
+            "example": 1
+          },
+          "value": {
+            "example": "document type",
+            "type": "string"
+          }
+        }
+      },
+      "PaymentType": {
+        "type": "string",
+        "enum": [
+          "transfer",
+          "card",
+          "cash",
+          "undefined"
+        ]
+      },
+      "InputData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InputParameters"
+          }
+        }
+      },
+      "InputDataSetExported": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InputParametersSetExported"
+          }
+        }
+      },
+      "InputDataSetExportedV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InputParametersSetExportedV2"
+          }
+        }
+      },
+      "InputDataGetAttachments": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InputParametersGetAttachments"
+          }
+        }
+      },
+      "InputDataGetAttachmentsV2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InputParametersGetAttachmentsV2"
+          }
+        }
+      },
+      "InputParametersSetExported": {
+        "type": "object",
+        "properties": {
+          "documentIds": {
+            "type": "array",
+            "description": "Array of document ID's to mark as exported",
+            "items": {
+              "type": "string",
+              "example": "tAMAUmjewZ7SHXoDi8ax",
+              "description": "ID of document to mark as exported."
+            }
+          }
+        }
+      },
+      "InputParametersSetExportedV2": {
+        "type": "object",
+        "properties": {
+          "documents": {
+            "type": "array",
+            "description": "Array of SetExportedData",
+            "items": {
+              "$ref": "#/components/schemas/SetExportedData"
+            }
+          }
+        }
+      },
+      "SetExportedData": {
+        "type": "object",
+        "required": [
+          "documentId",
+          "status"
+        ],
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "Array of Possible errors what was wrong with this export",
+            "items": {
+              "type": "string",
+              "example": "Export failed because bad numeric code was set",
+              "description": "Possible error what was wrong with this document during export"
+            }
+          },
+          "accountingSoftwareInternalId": {
+            "type": "string",
+            "description": "Accounting software internal Id",
+            "example": "456"
+          },
+          "documentId": {
+            "type": "string",
+            "description": "Document ID to mark",
+            "example": "tAMAUmjewZ7SHXoDi8ax"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PublicExportStatus"
+          }
+        }
+      },
+      "InputParametersGetAttachmentsV2": {
+        "type": "object",
+        "properties": {
+          "requestDocumentsAttachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicRequestDocumentAttachments"
+            }
+          }
+        }
+      },
+      "InputParametersGetAttachments": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "example": "tAMAUmjewZ7SHXoDi8ax",
+            "description": "ID of document to get attachments."
+          }
+        }
+      },
+      "PublicRequestDocumentAttachments": {
+        "type": "object",
+        "description": "Data for requesting attachments",
+        "properties": {
+          "documentType": {
+            "$ref": "#/components/schemas/RequestDocumentType"
+          },
+          "documentId": {
+            "type": "string"
+          }
+        }
+      },
+      "RequestDocumentType": {
+        "type": "string",
+        "enum": [
+          "expense"
+        ]
+      },
+      "ExportItem": {
+        "type": "object",
+        "nullable": true,
+        "description": "One item of expense.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Vegánske kornútiky"
+          },
+          "price": {
+            "type": "number",
+            "example": 2.5
+          },
+          "quantity": {
+            "type": "number",
+            "example": 10
+          },
+          "vatRate": {
+            "type": "number",
+            "example": 20
+          },
+          "itemType": {
+            "type": "string",
+            "example": "K"
+          },
+          "unit": {
+            "type": "string",
+            "example": "ks"
+          },
+          "vatAmount": {
+            "type": "number",
+            "nullable": true,
+            "example": 20
+          },
+          "accountingSettings": {
+            "$ref": "#/components/schemas/AccountingSettings"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "nullable": true,
+        "description": "Adress of expense",
+        "properties": {
+          "streetName": {
+            "type": "string",
+            "example": "Einsteinova"
+          },
+          "propertyRegistrationNumber": {
+            "type": "string",
+            "example": "60"
+          },
+          "buildingNumber": {
+            "type": "string",
+            "example": "30"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "85101"
+          },
+          "municipality": {
+            "type": "string",
+            "example": "Bratislava - mestská časť Petržalka"
+          },
+          "country": {
+            "type": "string",
+            "example": "Slovensko"
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "example": "b184lOqCeR7zJfmc04tV"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of exense",
+            "example": "receipt"
+          },
+          "subType": {
+            "$ref": "#/components/schemas/ManualReceiptTypeType"
+          },
+          "receiptUID": {
+            "type": "string",
+            "example": "O-A7DAAF78DE354C989AAF78DE351C98D7"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expense issue date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of document creation"
+          },
+          "vatRateBasic": {
+            "type": "number"
+          },
+          "taxBaseBasic": {
+            "type": "number"
+          },
+          "vatAmountBasic": {
+            "type": "number"
+          },
+          "vatRateReduced": {
+            "type": "number"
+          },
+          "taxBaseReduced": {
+            "type": "number"
+          },
+          "vatAmountReduced": {
+            "type": "number"
+          },
+          "vatRateTaxFree": {
+            "type": "number"
+          },
+          "freeTaxAmount": {
+            "type": "number"
+          },
+          "vatAmountTaxFree": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string",
+            "description": "Cash register value"
+          },
+          "accountingCode": {
+            "type": "string",
+            "description": "Accounting code",
+            "deprecated": true
+          },
+          "organizationId": {
+            "type": "string",
+            "description": "Organization ID (IČO)"
+          },
+          "organizationVAT": {
+            "type": "string",
+            "description": "Organization VAT identification(Dič / IčDph)",
+            "deprecated": true
+          },
+          "organizationVatId": {
+            "type": "string",
+            "description": "Organization Vat id (IČ DPH)"
+          },
+          "organizationTaxId": {
+            "type": "string",
+            "description": "Organization Vat id (Dič DPH)"
+          },
+          "organizationName": {
+            "type": "string",
+            "description": "Name of organization"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "municipality": {
+            "type": "string",
+            "description": "City"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Postal code"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of user who created document."
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "description": "Receipt invoice number"
+          },
+          "paymentType": {
+            "type": "string",
+            "example": "cash",
+            "description": "Type of payment(card, cash)"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ExportItem"
+            }
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "accountingSettings": {
+            "$ref": "#/components/schemas/AccountingSettings"
+          },
+          "vatSummary": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CustomVatInterface"
+            }
+          }
+        }
+      },
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "example": "b184lOqCeR7zJfmc04tV"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of exense",
+            "example": "invoice"
+          },
+          "subType": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IssuedInvoiceType"
+              },
+              {
+                "$ref": "#/components/schemas/ReceivedInvoiceTypeType"
+              }
+            ]
+          },
+          "organizationName": {
+            "type": "string",
+            "description": "Name of organization"
+          },
+          "organizationId": {
+            "type": "string",
+            "description": "Organization ID",
+            "example": "12345678"
+          },
+          "organizationVAT": {
+            "type": "string",
+            "description": "VAT identification of organization",
+            "example": "SK12345678",
+            "deprecated": true
+          },
+          "organizationVatId": {
+            "type": "string",
+            "description": "Organization Vat id (IČ DPH)"
+          },
+          "organizationTaxId": {
+            "type": "string",
+            "description": "Organization Vat id (Dič DPH)"
+          },
+          "orderReference": {
+            "type": "string",
+            "description": "ID of order",
+            "example": "Dod. 586683"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of document creation"
+          },
+          "vs": {
+            "type": "string",
+            "description": "Variable symbol",
+            "example": "8564552"
+          },
+          "ss": {
+            "type": "string",
+            "description": "Specific symbol",
+            "example": "038"
+          },
+          "ks": {
+            "type": "string",
+            "description": "Constant symbol",
+            "example": "836"
+          },
+          "originalNumber": {
+            "type": "string",
+            "description": "For domestic_credit, use 'originalNumber' as the invoice reference"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "description": "Expense ID",
+            "example": "20220055"
+          },
+          "iban": {
+            "type": "string",
+            "example": "SK2781800000007000179874"
+          },
+          "paymentType": {
+            "type": "string",
+            "description": "Type of payment (card, cash)",
+            "example": "cash"
+          },
+          "invoiceNote": {
+            "type": "string",
+            "description": "Note",
+            "example": "Note - Invoice for accounting services"
+          },
+          "invoiceTypeExportValue": {
+            "type": "string",
+            "example": "DF",
+            "deprecated": true,
+            "enum": [
+              "DF, DD, DZ"
+            ],
+            "description": "DF - dodávateľská faktúra <br> DD - dodávateľský dobropis <br>  DZ - dodavateľská záloha"
+          },
+          "currency": {
+            "type": "string",
+            "example": "EUR"
+          },
+          "vatRateBasic": {
+            "type": "number"
+          },
+          "taxBaseBasic": {
+            "type": "number"
+          },
+          "vatAmountBasic": {
+            "type": "number"
+          },
+          "vatRateReduced": {
+            "type": "number"
+          },
+          "taxBaseReduced": {
+            "type": "number"
+          },
+          "vatAmountReduced": {
+            "type": "number"
+          },
+          "vatRateTaxFree": {
+            "type": "number"
+          },
+          "freeTaxAmount": {
+            "type": "number"
+          },
+          "vatAmountTaxFree": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "code": {
+            "type": "string",
+            "description": "Accounting numeric code",
+            "deprecated": true
+          },
+          "accountingCode": {
+            "type": "string",
+            "description": "Abbreviation of precontation",
+            "deprecated": true
+          },
+          "expenditureCode": {
+            "type": "string",
+            "description": "Code of expediture center",
+            "deprecated": true
+          },
+          "documentNote": {
+            "type": "string",
+            "description": "Document note - deprecated",
+            "deprecated": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of user"
+          },
+          "purchaseRepresentativeCode": {
+            "type": "string",
+            "description": "Purchase representative code",
+            "deprecated": true
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ExportItem"
+            }
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "accountingSettings": {
+            "$ref": "#/components/schemas/AccountingSettings"
+          },
+          "vatSummary": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CustomVatInterface"
+            }
+          }
+        }
+      },
+      "GetAttachmentsV2SuccesfullResponse": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "description": "Provided Docuemnt Id"
+          },
+          "downloadUrl": {
+            "type": "string",
+            "description": "Download url"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "Name of file"
+          },
+          "fileType": {
+            "type": "string",
+            "example": "primary"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "example": "APP_UNAUTHENTICATED",
+            "enum": [
+              "APP_UNAUTHENTICATED",
+              "APP_INCORRECT_INPUT_DATA",
+              "APP_ORGANIZATION_NOT_FOUND_CODE",
+              "APP_MAX_EXPORT_LIMIT_EXCEEDED",
+              "APP_READ_DATA_ERROR",
+              "APP_NO_MORE_DATA"
+            ],
+            "description": "* `APP_INCORRECT_INPUT_DATA` - The APP_INCORRECT_INPUT_DATA status indicates that the selected filter or input criteria provided to the application are invalid or incorrect. . This status typically arises when users or systems submit input data that does not conform to the expected format, range, or validation rules defined by the application.\n* `APP_NO_MORE_DATA` - Status indicates that there are no more data available to be fetched or processed by the application at the current point in time. This status typically occurs in scenarios involving pagination or sequential data retrieval, where the application has reached the end of available data.\n* `APP_MAX_EXPORT_LIMIT_EXCEEDED` - Status indicates that the maximum export limit(2000) per API request has been exceeded.\n* `APP_ORGANIZATION_NOT_FOUND_CODE` -  Status indicates that the requested organization could not be found in the system based on the provided identification number (ICO - Identification Number of Legal Entity/Organization).\n* `APP_READ_DATA_ERROR` - Status indicates an undefined error occurred while attempting to read data from the application.\n"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Document"
+                },
+                {
+                  "$ref": "#/components/schemas/Invoice"
+                }
+              ]
+            }
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true,
+            "description": "Token for paggination"
+          }
+        }
+      },
+      "CustomVatInterface": {
+        "type": "object",
+        "properties": {
+          "taxBase": {
+            "type": "number"
+          },
+          "vatAmount": {
+            "type": "number"
+          },
+          "vatRate": {
+            "type": "number"
+          }
+        }
+      },
+      "ApiResponseSimple": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "example": "APP_UNAUTHENTICATED",
+            "enum": [
+              "APP_UNAUTHENTICATED",
+              "APP_INCORRECT_INPUT_DATA",
+              "SAVE_DATA_ERROR_CODE"
+            ]
+          }
+        }
+      },
+      "ManualReceiptTypeType": {
+        "type": "string",
+        "nullable": true,
+        "enum": [
+          "manual_domestic_received",
+          "manual_foreign_received",
+          "undefined"
+        ]
+      },
+      "IssuedInvoiceType": {
+        "type": "string",
+        "enum": [
+          "domestic_exposed",
+          "foreign_exposed",
+          "domestic_credit_issued",
+          "foreign_credit_issued",
+          "domestic_debit_issued",
+          "foreign_debit_issued"
+        ]
+      },
+      "ReceivedInvoiceTypeType": {
+        "type": "string",
+        "enum": [
+          "domestic_received",
+          "foreign_received",
+          "domestic_credit",
+          "foreign_credit",
+          "domestic_advance",
+          "foreign_advance",
+          "domestic_debit",
+          "foreign_debit"
+        ]
+      },
+      "PublicExportStatus": {
+        "type": "string",
+        "enum": [
+          "not_exported",
+          "sync_with_acc_soft_failed",
+          "sync_with_acc_soft_without_attachment",
+          "sync_with_acc_soft_ok_attachment_failed",
+          "sync_with_acc_soft"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_key"
+      }
+    }
+  }
+}
