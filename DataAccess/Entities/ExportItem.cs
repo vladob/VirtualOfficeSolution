@@ -11,6 +11,6 @@
         public string? ItemType { get; set; }
         public string? Unit { get; set; }
         public decimal? VatAmount { get; set; }
-        public AccountingSettingsElement? AccountingSettings { get; set; }
+        public ItemsAccountingSettingsElement? AccountingSettings { get; set; }
     }
 }

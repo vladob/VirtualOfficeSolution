@@ -16,6 +16,7 @@ namespace DataAccess
         public DbSet<AccountingSettingsElement> AccountingSettings { get; set; }
         public DbSet<ExportItem> Items { get; set; }
         public DbSet<CustomVatInterface> VatSummarys { get; set; }
+        public DbSet<ItemsAccountingSettingsElement> ItemsAccountingSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
