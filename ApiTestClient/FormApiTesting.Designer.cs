@@ -1,4 +1,8 @@
 ﻿
+using System.Drawing;
+using System.Security.Cryptography;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace ApiTestClient
 {
     partial class FormApiTesting
@@ -79,6 +83,7 @@ namespace ApiTestClient
             // 
             // btnFetchData
             // 
+            btnFetchData.Enabled = false;
             btnFetchData.Location = new Point(539, 37);
             btnFetchData.Name = "btnFetchData";
             btnFetchData.Size = new Size(94, 29);
@@ -104,7 +109,7 @@ namespace ApiTestClient
             fromDatePicker.Name = "fromDatePicker";
             fromDatePicker.Size = new Size(148, 27);
             fromDatePicker.TabIndex = 8;
-            fromDatePicker.Value = new DateTime(2024, 1, 1, 0, 0, 0, 0);
+            fromDatePicker.Value = new DateTime(2024, 11, 14, 0, 0, 0, 0);
             // 
             // toDatePicker
             // 
@@ -118,10 +123,47 @@ namespace ApiTestClient
             // comboBoxCompany
             // 
             comboBoxCompany.FormattingEnabled = true;
+            comboBoxCompany.Items.AddRange(new object[] { 
+                "36206075/CONSULTING, s.r.o.", 
+                "47444525/CORSO REAL s.r.o.", 
+                "52345386/DUDISTAV GROUP s.r.o.", 
+                "52736491/MN invest s.r.o.", 
+                "47449683/SCHOOL EDUCATION, s.r.o.", 
+                "36590045/Farma Komaničan s.r.o.", 
+                "51250055/Hokejový klub Dukla Ingema Michalovce", 
+                "30295068/Ján Brecko", 
+                "46440500/TIM BER HOUSE s.r.o." , 
+                "45696829/STAVIMPEX LOGISTIK, s.r.o.", 
+                "50222805/RTmont s.r.o.",
+                "50635212/Brány Benedek s.r.o.",
+                "51762803/Jazdecký klub Klokočina o.z.",
+                "52345386/DUDISTAV GROUP s.r.o.",
+                "50540483/paint horses, s.r.o.",
+                "31719741/V a V s.r.p.",
+                "54280923/Wood & House s. r. o.",
+                "42104629/Ing. Slávka Molčanyiová, PhD.",
+                "45534802/CONSULTING A&T",
+                "55380166/4BE Group s. r. o.",
+                "51212595/BigByt s.r.o.",
+                "51454467/STAVFEX s.r.o.",
+                "45696829/STAVIMPEX LOGISTIK, s.r.o.",
+                "50914871/Humbol s.r.o.",
+                "53753666/PALWOOD s.r.o.",
+                "54369827/ŽEN&MAS s. r. o.",
+                "50836471/EMM STAV s.r.o.",
+                "50200453/Wellness štúdio s.r.o",
+                "50096168/Group ML, s.r.o.",
+                "52811417/RSD SK, s.r.o.",
+                "46102116/VID s.r.o.",
+                "36590045/FarmaKomanican",
+                "50960652/R Strechy s.r.o.",
+                "51947803/EDSTREX s.r.o."
+            });
             comboBoxCompany.Location = new Point(27, 41);
             comboBoxCompany.Name = "comboBoxCompany";
             comboBoxCompany.Size = new Size(241, 28);
             comboBoxCompany.TabIndex = 10;
+            comboBoxCompany.SelectedIndexChanged += comboBoxCompany_SelectedIndexChanged;
             // 
             // FormApiTesting
             // 

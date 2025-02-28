@@ -17,6 +17,7 @@ namespace ApiTestClient
             toDatePicker.Value = DateTime.Now;
             btnFetchData.Select();
             _dokladoService = new DokladoService();
+            _dokladoService.CompayId = comboBoxCompany.Text;
             _dbContext = dbContext;
         }
 
@@ -54,7 +55,7 @@ namespace ApiTestClient
                     var repository = new DocumentRepository(context);
                     var mappedDocuments = MapDocuments(documents);
                     await repository.SaveDocumentsAsync(mappedDocuments);
-//                    await repository.SaveDocumentsAsync((IEnumerable<DataAccess.Entities.Document>)documents);
+                    //                    await repository.SaveDocumentsAsync((IEnumerable<DataAccess.Entities.Document>)documents);
                 }
 
                 // Display in DataGridView
@@ -70,6 +71,7 @@ namespace ApiTestClient
         {
             return apiDocuments.Select(apiDoc => new DataAccess.Entities.Document
             {
+                ScanedForCompany = _dokladoService.CompayId,
                 DocumentErpId = apiDoc.DocumentId,
                 Type = apiDoc.Type,
                 ReceiptUID = apiDoc.ReceiptUID,
@@ -88,7 +90,7 @@ namespace ApiTestClient
                 TotalPrice = apiDoc.TotalPrice,
                 AccountingCode = apiDoc.AccountingCode,
                 OrganizationId = apiDoc.OrganizationId,
-//                organizationVAT = apiDoc.OrganizationVat,
+                //                organizationVAT = apiDoc.OrganizationVat,
                 OrganizationVatId = apiDoc.OrganizationVatId,
                 OrganizationTaxId = apiDoc.OrganizationTaxId,
                 OrganizationName = apiDoc.OrganizationName,
@@ -111,7 +113,7 @@ namespace ApiTestClient
                 AccountingSettings = apiDoc.AccountingSettings == null ? null : new DataAccess.Entities.AccountingSettingsElement
                 {
 
-                    AccountingItem_AccountingSoftwareId = apiDoc.AccountingSettings.AccountingItem_AccountingSoftwareId,                    
+                    AccountingItem_AccountingSoftwareId = apiDoc.AccountingSettings.AccountingItem_AccountingSoftwareId,
                     AccountingItem_Value = apiDoc.AccountingSettings.AccountingItem_Value,
                     AccountingItem_Code = apiDoc.AccountingSettings.AccountingItem_Code,
                     AccountingItem_ResourceType = apiDoc.AccountingSettings.AccountingItem_ResourceType,
@@ -167,18 +169,26 @@ namespace ApiTestClient
                     ItemType = item.ItemType,
                     Unit = item.Unit,
                     VatAmount = item.VatAmount
-/*                    
-                    ,
-                    AccountingSettings = item.AccountingSettings == null ? null : new DataAccess.Entities.AccountingSettingsElement
-                    {
-                        Value = item.AccountingSettings.Value,
-                        Code = item.AccountingSettings.Code,
-                        ResourceType = item.AccountingSettings.ResourceType
-                    }
-*/
+                    /*                    
+                                        ,
+                                        AccountingSettings = item.AccountingSettings == null ? null : new DataAccess.Entities.AccountingSettingsElement
+                                        {
+                                            Value = item.AccountingSettings.Value,
+                                            Code = item.AccountingSettings.Code,
+                                            ResourceType = item.AccountingSettings.ResourceType
+                                        }
+                    */
                 }).ToList()
             });
         }
 
+        private void comboBoxCompany_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxCompany.SelectedIndex > -1)
+            {
+                btnFetchData.Enabled = true;
+                _dokladoService.CompayId = comboBoxCompany.Text.Split('/')[0];
+            }
+        }
     }
 }

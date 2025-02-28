@@ -22,6 +22,7 @@ namespace APIServiceDoklado
         private readonly HttpClient _httpClient;
         private readonly DokladoApiSchemaClient _apiClient;
         private readonly string? _apiKey;
+        public string? CompayId { get; set; }
 
         public DokladoService()
         {
@@ -70,7 +71,7 @@ namespace APIServiceDoklado
 
             } while (!string.IsNullOrEmpty(continuationToken));
 
-            return allReceipts;
+             return allReceipts;
         }
 
         private async Task<(IEnumerable<Document> Receipts, string ContinuationToken)> FetchReceiptsPageAsync(DateTime fromDate, string? continuationToken)
@@ -82,10 +83,11 @@ namespace APIServiceDoklado
             {
                 Data = new InputParameters
                 {
-                    OrganizationId = "36206075",
-//                    IsExported = true,
-//                    DateFrom = fromDate, // Force UTC
-//                    DateType = InputParametersDateType.Create,   // Optional sorting
+                    //OrganizationId = "36206075",
+                    OrganizationId = CompayId,
+                    IsExported = false,
+                    DateFrom = fromDate, // Force UTC
+                    DateType = InputParametersDateType.Create,   // Optional sorting
                     ContinuationToken = continuationToken
                 }
             };
