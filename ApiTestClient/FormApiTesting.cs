@@ -10,6 +10,7 @@ namespace ApiTestClient
     {
         private readonly DokladoService _dokladoService;
         private readonly AppDbContext _dbContext;
+        private readonly String connectionString;
 
         public FormApiTesting(AppDbContext dbContext)
         {
@@ -19,6 +20,15 @@ namespace ApiTestClient
             _dokladoService = new DokladoService();
             _dokladoService.CompayId = comboBoxCompany.Text;
             _dbContext = dbContext;
+
+            // Load configuration from appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            // Fetch the connection string
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         private async void BtnFetchData_Click(object sender, EventArgs e)
@@ -32,7 +42,7 @@ namespace ApiTestClient
 
                 // Fetch documents from API
                 var documents = await _dokladoService.GetReceiptsAsync(fromDate);
-
+/*
                 // Load configuration from appsettings.json
                 var configuration = new ConfigurationBuilder()
                     .SetBasePath(AppContext.BaseDirectory)
@@ -41,13 +51,11 @@ namespace ApiTestClient
 
                 // Fetch the connection string
                 var connectionString = configuration.GetConnectionString("DefaultConnection");
-
+*/
                 // Configure DbContextOptions with the connection string
                 var options = new DbContextOptionsBuilder<AppDbContext>()
                     .UseSqlServer(connectionString)
                     .Options;
-
-
 
                 // Save documents to database
                 using (var context = new AppDbContext(options))
@@ -182,12 +190,42 @@ namespace ApiTestClient
             });
         }
 
+        private IEnumerable<DataAccess.Entities.Attachment> MapAttachments(IEnumerable<APIServiceDoklado.GetAttachmentsV2SuccesfullResponse> apiAttachments)
+        {
+            return apiAttachments.Select(apiAttachment => new DataAccess.Entities.Attachment
+            {
+                DocumentId = apiAttachment.DocumentId,
+                FileName = apiAttachment.FileName,
+                FileType = apiAttachment.FileType,
+                DownloadUrl = apiAttachment.DownloadUrl
+            });
+        }
+
         private void comboBoxCompany_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxCompany.SelectedIndex > -1)
             {
                 btnFetchData.Enabled = true;
                 _dokladoService.CompayId = comboBoxCompany.Text.Split('/')[0];
+            }
+        }
+
+        private async void btnGetFilenames_Click(object sender, EventArgs e)
+        {
+            var attachmentPaths = await _dokladoService.GetFilePath("w4lEVV4R5zdP0zFo3jsr");
+
+            // Configure DbContextOptions with the connection string
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            // Save attachments to database
+            using (var context = new AppDbContext(options))
+            {
+                var repository = new DocumentRepository(context);
+                var mappedAttachments = MapAttachments(attachmentPaths);
+                await repository.SaveAttachmentsAsync(mappedAttachments);
+                //                    await repository.SaveDocumentsAsync((IEnumerable<DataAccess.Entities.Document>)documents);
             }
         }
     }

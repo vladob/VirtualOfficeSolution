@@ -37,6 +37,10 @@ namespace APIServiceDoklado
 
             // Retrieve API key from environment variable
             _apiKey = Environment.GetEnvironmentVariable("DOKLADO_API_KEY");
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                _apiKey = "ebt5bhbh98c-2a4ta3-4ucq83-9ovrb4-fb99l4aqbr-6bbqbdb";
+            }
 
             // Add the Authorization header with the API key
             if (!string.IsNullOrEmpty(_apiKey))
@@ -74,6 +78,34 @@ namespace APIServiceDoklado
              return allReceipts;
         }
 
+        public async Task<ICollection<GetAttachmentsV2SuccesfullResponse>> GetFilePath(string documentId)
+        {
+            // Make the API call with the necessary headers and parameters
+            // Construct the request payload
+
+            InputDataGetAttachmentsV2 request = new InputDataGetAttachmentsV2
+            {
+                Data = new InputParametersGetAttachmentsV2
+                {
+
+                    RequestDocumentsAttachments = new List<PublicRequestDocumentAttachments>
+                    {
+                        new PublicRequestDocumentAttachments
+                        {
+                            DocumentId = documentId,
+                            DocumentType = RequestDocumentType.Expense
+                        }
+                    }
+                }
+                
+            };
+
+            var response = await _apiClient.GetAsync(request);
+
+
+            return response.Data;
+        }
+
         private async Task<(IEnumerable<Document> Receipts, string ContinuationToken)> FetchReceiptsPageAsync(DateTime fromDate, string? continuationToken)
         {
             // Make the API call with the necessary headers and parameters
@@ -100,6 +132,7 @@ namespace APIServiceDoklado
             var response = await _apiClient.DocumentsAsync(request);
 
             // Assuming the API client returns data and a continuation token
+            var responseData = response.Data.ToList();
             var documents = response.Data.Select(MapToDocument).ToList();
             return (documents, response.ContinuationToken);
         }

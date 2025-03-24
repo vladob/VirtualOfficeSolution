@@ -865,6 +865,7 @@ namespace APIServiceDoklado
 
     }
 
+ 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AccountingSettings
     {

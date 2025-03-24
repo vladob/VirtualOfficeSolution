@@ -9,5 +9,10 @@
             _context.Documents.AddRange(documents);
             await _context.SaveChangesAsync();
         }
+        public async Task SaveAttachmentsAsync(IEnumerable<Entities.Attachment> attachments)
+        {
+            _context.Attachments.AddRange(attachments);
+            await _context.SaveChangesAsync();
+        }
     }
 }
