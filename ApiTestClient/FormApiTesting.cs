@@ -1,7 +1,9 @@
 using APIServiceDoklado;
 using DataAccess;
+using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ApiTestClient
@@ -190,15 +192,51 @@ namespace ApiTestClient
             });
         }
 
-        private IEnumerable<DataAccess.Entities.Attachment> MapAttachments(IEnumerable<APIServiceDoklado.GetAttachmentsV2SuccesfullResponse> apiAttachments)
+        private IEnumerable<DataAccess.Entities.Attachment> MapAttachments(IEnumerable<APIServiceDoklado.GetAttachmentsV2SuccesfullResponse> apiAttachments, string documentErpId)
         {
-            return apiAttachments.Select(apiAttachment => new DataAccess.Entities.Attachment
+
+            if (apiAttachments == null)
             {
-                DocumentId = apiAttachment.DocumentId,
-                FileName = apiAttachment.FileName,
-                FileType = apiAttachment.FileType,
-                DownloadUrl = apiAttachment.DownloadUrl
-            });
+                var attachment = new Attachment
+                {
+                    DocumentId = documentErpId,
+                    DownloadUrl = null,
+                    FileName = "DocumentDoesNotExists",
+                    FileType = null
+                };
+                // Add the attachment to the context
+                _dbContext.Attachments.Add(attachment);
+
+                // Return a collection containing the attachment
+                return new List<Attachment> { attachment };
+            } else
+
+            if (apiAttachments.Count() == 0)
+            {
+                var attachment = new Attachment
+                {
+                    DocumentId = documentErpId,
+                    DownloadUrl = null,
+                    FileName = null,
+                    FileType = null
+                };
+                // Add the attachment to the context
+                _dbContext.Attachments.Add(attachment);
+
+                // Return a collection containing the attachment
+                return new List<Attachment> { attachment };
+            }
+            else
+            {
+                return apiAttachments.Select(apiAttachment => new DataAccess.Entities.Attachment
+                {
+                    DocumentId = apiAttachment.DocumentId,
+                    FileName = apiAttachment.FileName,
+                    FileType = apiAttachment.FileType,
+                    DownloadUrl = apiAttachment.DownloadUrl
+                });
+            }
+
         }
 
         private void comboBoxCompany_SelectedIndexChanged(object sender, EventArgs e)
@@ -212,7 +250,29 @@ namespace ApiTestClient
 
         private async void btnGetFilenames_Click(object sender, EventArgs e)
         {
-            var attachmentPaths = await _dokladoService.GetFilePath("w4lEVV4R5zdP0zFo3jsr");
+            // Configure DbContextOptions with the connection string
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            // Create an instance of DocumentRepository
+            using (var context = new AppDbContext(options))
+            {
+                var repository = new DocumentRepository(context);
+                List<string> documentErpIds = repository.GetDocumentErpIdsFromDatabase();
+                ICollection <GetAttachmentsV2SuccesfullResponse> attachmentPaths;
+                foreach (string documentErpId in documentErpIds)
+                {
+                    attachmentPaths = await _dokladoService.GetFilePath(documentErpId);
+                    var mappedAttachments = MapAttachments(attachmentPaths, documentErpId);
+                    await repository.SaveAttachmentsAsync(mappedAttachments);
+                }
+            }
+        }
+
+        private async Task getAttachmentData(string documentId)
+        {
+            var attachmentPaths = await _dokladoService.GetFilePath(documentId);
 
             // Configure DbContextOptions with the connection string
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -223,7 +283,7 @@ namespace ApiTestClient
             using (var context = new AppDbContext(options))
             {
                 var repository = new DocumentRepository(context);
-                var mappedAttachments = MapAttachments(attachmentPaths);
+                var mappedAttachments = MapAttachments(attachmentPaths, documentId);
                 await repository.SaveAttachmentsAsync(mappedAttachments);
                 //                    await repository.SaveDocumentsAsync((IEnumerable<DataAccess.Entities.Document>)documents);
             }

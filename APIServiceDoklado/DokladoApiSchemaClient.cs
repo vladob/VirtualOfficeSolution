@@ -1458,7 +1458,7 @@ namespace APIServiceDoklado
     public partial class InputDataGetAttachmentsV2
     {
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public InputParametersGetAttachmentsV2 Data { get; set; }
+        public InputParametersGetAttachmentsV2? Data { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -2294,8 +2294,9 @@ namespace APIServiceDoklado
     public partial class Response : ApiResponseSimple
     {
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<GetAttachmentsV2SuccesfullResponse> Data { get; set; }
-
+        public System.Collections.Generic.ICollection<GetAttachmentsV2SuccesfullResponse>? Data { get; set; }
+        public string Code { get; set; }
+        public bool Success { get; set; }
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v11.0.0.0))")]
@@ -2453,6 +2454,9 @@ namespace APIServiceDoklado
 
         [System.Runtime.Serialization.EnumMember(Value = @"SAVE_DATA_ERROR_CODE")]
         SAVE_DATA_ERROR_CODE = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"APP_DOCUMENT_DOES_NOT_EXISTS")]
+        APP_DOCUMENT_DOES_NOT_EXISTS = 3,
 
     }
 
