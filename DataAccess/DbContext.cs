@@ -26,6 +26,8 @@ namespace DataAccess
 
             // Call the base class implementation
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CompanyLookup>().HasNoKey();
         }
     }
 }

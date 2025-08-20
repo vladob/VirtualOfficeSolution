@@ -13,6 +13,7 @@ namespace ApiTestClient
         private readonly DokladoService _dokladoService;
         private readonly AppDbContext _dbContext;
         private readonly String connectionString;
+        private bool _comboInitialized = false;
 
         public FormApiTesting(AppDbContext dbContext)
         {
@@ -31,6 +32,25 @@ namespace ApiTestClient
 
             // Fetch the connection string
             connectionString = configuration.GetConnectionString("DefaultConnection");
+            PopulateCompaniescomboBox();
+
+            comboBoxCompany.SelectedIndex = -1;  // clear selection
+            _comboInitialized = true;
+        }
+
+        private void PopulateCompaniescomboBox()
+        {
+            // Load companies into the combo box
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+            var context = new AppDbContext(options);
+            var repository = new DataAccess.CompaniesRepository(context);
+            var companies = repository.GetCompanies();
+            comboBoxCompany.DataSource = companies;
+            comboBoxCompany.DisplayMember = "Name";
+            comboBoxCompany.ValueMember = "ICO";
+            comboBoxCompany.SelectedIndex = -1; // No selection by default
         }
 
         private async void BtnFetchData_Click(object sender, EventArgs e)
@@ -241,10 +261,10 @@ namespace ApiTestClient
 
         private void comboBoxCompany_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxCompany.SelectedIndex > -1)
+            if (comboBoxCompany.SelectedIndex > -1 && _comboInitialized)
             {
                 btnFetchData.Enabled = true;
-                _dokladoService.CompayId = comboBoxCompany.Text.Split('/')[0];
+                _dokladoService.CompayId = (string?)comboBoxCompany.SelectedValue;
             }
         }
 
@@ -258,7 +278,7 @@ namespace ApiTestClient
             // Create an instance of DocumentRepository
             using (var context = new AppDbContext(options))
             {
-                var repository = new DocumentRepository(context);
+                var repository = new DataAccess.DocumentRepository(context);
                 List<string> documentErpIds = repository.GetDocumentErpIdsFromDatabase();
                 ICollection <GetAttachmentsV2SuccesfullResponse> attachmentPaths;
                 foreach (string documentErpId in documentErpIds)

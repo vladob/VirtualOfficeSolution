@@ -43,7 +43,9 @@ namespace ApiTestClient
             toDatePicker = new DateTimePicker();
             comboBoxCompany = new ComboBox();
             btnGetFilenames = new Button();
+            dataGridViewCompanies = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridViewResult).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCompanies).BeginInit();
             SuspendLayout();
             // 
             // lblAPIkey
@@ -103,7 +105,7 @@ namespace ApiTestClient
             dataGridViewResult.Margin = new Padding(3, 2, 3, 2);
             dataGridViewResult.Name = "dataGridViewResult";
             dataGridViewResult.RowHeadersWidth = 51;
-            dataGridViewResult.Size = new Size(748, 248);
+            dataGridViewResult.Size = new Size(240, 245);
             dataGridViewResult.TabIndex = 7;
             // 
             // fromDatePicker
@@ -129,7 +131,6 @@ namespace ApiTestClient
             // comboBoxCompany
             // 
             comboBoxCompany.FormattingEnabled = true;
-            comboBoxCompany.Items.AddRange(new object[] { "55380166/4BE Group s. r. o.", "56120061/AGRO- PDM, spol. s.r.o.", "47551224/AgroGaran s.r.o.", "54597081/BAU-MYK", "51212595/BigByt s.r.o.", "36601837/Bojkun s.r.o.", "50635212/Brány Benedek s.r.o.", "55195628/ByMyway s.r.o.", "45534802/CONSULTING A&T", "36206075/CONSULTING, s.r.o.", "46511903/COMPACT izol s.r.o.", "47444525/CORSO REAL s.r.o.", "36206016/CSM - STAV s.r.o.", "52325091/css-stav s. r. o.", "55638384/Davina&Simonic, s.r.o.", "54080380/Datelier s.r.o", "46007130/Derma ls", "52345386/DUDISTAV GROUP s.r.o.", "45533024/EBIX s.r.o.", "51947803/EDSTREX s.r.o.", "50836471/EMM STAV s.r.o.", "51099179/FAMM 2020 s.r.o.", "36590045/Farma Komaničan s.r.o.", "45885877/Firma PIATKO, s.r.o.", "52406181/FOOD FAKTORY s. r. o.", "50096168/Group ML, s.r.o.", "45880271/GULIVER s.r.o.", "51250055/Hokejový klub Dukla Ingema Michalovce", "50914871/Humbol s.r.o.", "42104629/Ing. Slávka Molčanyiová, PhD.", "30295068/Ján Brecko", "51762803/Jazdecký klub Klokočina o.z.", "50180321/JOPAS", "44726732/KobraI s.r.o.", "53102959/LAVI", "53106687/MABAS s. r. o.", "52736491/MN invest s.r.o.", "54127203/Mondywood, s.r.o.", "46170111/NYOS r.s.p. s.r.o.", "50540483/paint horses, s.r.o.", "53753666/PALWOOD s.r.o.", "55454241/Perun Electromobility s. r. o.", "17196990/PeterPoprik", "50960652/R Strechy s.r.o.", "52811417/RSD SK, s.r.o.", "50222805/RTmont s.r.o.", "47504170/SAMA-PL s.r.o.", "53818172/SASID group s.r.o.", "52761754/SATOgroup s.r.o.", "47449683/SCHOOL EDUCATION, s.r.o.", "36568872/SLOVKARTON", "46976477/SpyMarket s.r.o.", "51454467/STAVFEX s.r.o.", "45696829/STAVIMPEX LOGISTIK, s.r.o.", "51077485/SZILBER s.r.o.", "46440500/TIM BER HOUSE s.r.o.", "46578676/UNIBAU SK, s.r.o.", "31719741/V a V s.r.p.", "46655999/VENTUM s.r.o.", "46102116/VID s.r.o.", "50200453/Wellness štúdio s.r.o", "54280923/Wood & House s. r. o.", "54369827/ŽEN&MAS s. r. o." });
             comboBoxCompany.Location = new Point(24, 30);
             comboBoxCompany.Margin = new Padding(3, 2, 3, 2);
             comboBoxCompany.Name = "comboBoxCompany";
@@ -142,17 +143,26 @@ namespace ApiTestClient
             btnGetFilenames.Location = new Point(560, 28);
             btnGetFilenames.Margin = new Padding(3, 2, 3, 2);
             btnGetFilenames.Name = "btnGetFilenames";
-            btnGetFilenames.Size = new Size(82, 22);
+            btnGetFilenames.Size = new Size(101, 22);
             btnGetFilenames.TabIndex = 11;
             btnGetFilenames.Text = "Get Filenames";
             btnGetFilenames.UseVisualStyleBackColor = true;
             btnGetFilenames.Click += btnGetFilenames_Click;
+            // 
+            // dataGridViewCompanies
+            // 
+            dataGridViewCompanies.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCompanies.Location = new Point(270, 87);
+            dataGridViewCompanies.Name = "dataGridViewCompanies";
+            dataGridViewCompanies.Size = new Size(486, 239);
+            dataGridViewCompanies.TabIndex = 12;
             // 
             // FormApiTesting
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(768, 337);
+            Controls.Add(dataGridViewCompanies);
             Controls.Add(btnGetFilenames);
             Controls.Add(comboBoxCompany);
             Controls.Add(toDatePicker);
@@ -167,6 +177,7 @@ namespace ApiTestClient
             Name = "FormApiTesting";
             Text = "API testing";
             ((System.ComponentModel.ISupportInitialize)dataGridViewResult).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCompanies).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -183,5 +194,6 @@ namespace ApiTestClient
         private DateTimePicker toDatePicker;
         private ComboBox comboBoxCompany;
         private Button btnGetFilenames;
+        private DataGridView dataGridViewCompanies;
     }
 }
