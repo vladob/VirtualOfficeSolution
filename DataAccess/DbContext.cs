@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DataAccess.Entities;
 using Microsoft.Extensions.Options;
+using DataAccess.Configurations;
 
 namespace DataAccess
 {
@@ -18,6 +19,7 @@ namespace DataAccess
         public DbSet<CustomVatInterface> VatSummarys { get; set; }
         public DbSet<ItemsAccountingSettingsElement> ItemsAccountingSettings { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<ImportLog> ImportLogs => Set<ImportLog>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +30,7 @@ namespace DataAccess
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<CompanyLookup>().HasNoKey();
+            modelBuilder.ApplyConfiguration(new ImportLogConfiguration());
         }
     }
 }

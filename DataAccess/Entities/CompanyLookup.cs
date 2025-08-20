@@ -10,5 +10,6 @@ namespace DataAccess.Entities
     {
         public string Name { get; set; }
         public string ICO { get; set; }
+        public string DefaultFilename { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace DataAccess
         public object GetCompanies()
         {
             return _context.Set<CompanyLookup>()
-                .FromSqlRaw("SELECT [Name], [ICO] FROM [VirtualOfficeDB].[MkSoft].[Company] ORDER BY [Name]")
+                .FromSqlRaw("SELECT [Name], [ICO], [DefaultFilename] FROM [VirtualOfficeDB].[MkSoft].[Company] ORDER BY [Name]")
                 .ToList();
         }
     }

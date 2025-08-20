@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using APIServiceDoklado;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace APIServiceDoklado
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Net.Http.Headers;
-    using System.Threading.Tasks;
-    using APIServiceDoklado;
-    using Microsoft.VisualBasic;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using static System.Runtime.InteropServices.JavaScript.JSType;
-
     public class DokladoService
     {
         private readonly HttpClient _httpClient;
         private readonly DokladoApiSchemaClient _apiClient;
         private readonly string? _apiKey;
-        public string? CompayId { get; set; }
+        public string? CompanyId { get; set; }
 
         public DokladoService()
         {
@@ -75,7 +74,9 @@ namespace APIServiceDoklado
 
             } while (!string.IsNullOrEmpty(continuationToken));
 
-             return allReceipts;
+
+
+            return allReceipts;
         }
 
         public async Task<ICollection<GetAttachmentsV2SuccesfullResponse>> GetFilePath(string documentId)
@@ -116,7 +117,7 @@ namespace APIServiceDoklado
                 Data = new InputParameters
                 {
                     //OrganizationId = "36206075",
-                    OrganizationId = CompayId,
+                    OrganizationId = CompanyId,
                     IsExported = false,
                     DateFrom = fromDate, // Force UTC
                     DateType = InputParametersDateType.Create,   // Optional sorting
