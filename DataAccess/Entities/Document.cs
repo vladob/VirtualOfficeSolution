@@ -37,6 +37,16 @@ namespace DataAccess.Entities
         public string? Email { get; set; }
         public string? PaymentType { get; set; }
         public string? InvoiceNumber { get; set; }
+
+
+        public string? SubType { get; set; }
+        public DateTimeOffset TaxPointDate { get; set; }
+        public string? VatCategory { get; set; }
+        public string? Note { get; set; }
+        public string? CustomText { get; set; }
+        public string? OtherCurrency { get; set; }
+        public decimal? OtherTotalPrice { get; set; }
+
         public ICollection<ExportItem>? Items { get; set; }
         public Address? Address { get; set; }
         public ICollection<CustomVatInterface>? VatSummary { get; set; }

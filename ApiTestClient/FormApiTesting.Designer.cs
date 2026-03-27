@@ -65,7 +65,7 @@ namespace ApiTestClient
             textBoxApiKey.Location = new Point(99, 4);
             textBoxApiKey.Margin = new Padding(3, 2, 3, 2);
             textBoxApiKey.Name = "textBoxApiKey";
-            textBoxApiKey.ReadOnly = true;
+            textBoxApiKey.ReadOnly = false;
             textBoxApiKey.Size = new Size(474, 23);
             textBoxApiKey.TabIndex = 1;
             textBoxApiKey.Text = "ebt5bhbh98c-2a4ta3-4ucq83-9ovrb4-fb99l4aqbr-6bbqbdb";
@@ -145,7 +145,6 @@ namespace ApiTestClient
             // 
             // btnGetFilenames
             // 
-            btnGetFilenames.Enabled = false;
             btnGetFilenames.Location = new Point(579, 5);
             btnGetFilenames.Margin = new Padding(3, 2, 3, 2);
             btnGetFilenames.Name = "btnGetFilenames";

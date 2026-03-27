@@ -28,6 +28,12 @@ namespace DataAccess.Configurations
             builder.Property(d => d.PaymentType).HasMaxLength(20).IsRequired(false);
             builder.Property(d => d.InvoiceNumber).HasMaxLength(20).IsRequired(false);
 
+            builder.Property(d => d.SubType).HasMaxLength(20).IsRequired(false);
+            builder.Property(d => d.VatCategory).HasMaxLength(20).IsRequired(false);
+            builder.Property(d => d.Note).HasMaxLength(255).IsRequired(false);
+            builder.Property(d => d.CustomText).HasMaxLength(255).IsRequired(false);
+            builder.Property(d => d.OtherCurrency).HasMaxLength(20).IsRequired(false);
+
             builder.HasOne(d => d.Address)
                     .WithOne()
                     .HasForeignKey<Address>(a => a.DocumentId)

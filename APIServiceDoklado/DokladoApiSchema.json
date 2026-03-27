@@ -19,7 +19,7 @@
     }
   ],
   "paths": {
-    "/v1/documents": {
+    "/v2/documents": {
       "post": {
         "summary": "Returns documents for selected date range",
         "tags": [

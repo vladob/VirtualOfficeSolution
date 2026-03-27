@@ -29,6 +29,7 @@ namespace ApiTestClient
             toDatePicker.Value = DateTime.Now;
             btnFetchData.Select();
             _dokladoService = new DokladoService();
+            _dokladoService.ApiKey = textBoxApiKey.Text;
             _dokladoService.CompanyId = comboBoxCompany.Text;
             _dbContext = dbContext;
 
@@ -70,6 +71,7 @@ namespace ApiTestClient
                 // Fetch input values
                 var fromDate = fromDatePicker.Value;
                 var toDate = toDatePicker.Value;
+                _dokladoService.ApiKey = textBoxApiKey.Text;
                 // CompanyId text box missing
 
                 // Fetch documents from API
@@ -106,7 +108,7 @@ namespace ApiTestClient
                     // (optional) one transaction for the 3 data-fix procs
                     await using (var tx = await context.Database.BeginTransactionAsync())
                     {
-                        await context.Database.ExecuteSqlRawAsync("EXEC [dbo].[DeleteDuplicates] @LogId", pLogId);
+                        //await context.Database.ExecuteSqlRawAsync("EXEC [dbo].[DeleteDuplicates] @LogId", pLogId);
                         await context.Database.ExecuteSqlRawAsync("EXEC [MkSoft].[PopulateAdresar] @LogId", pLogId);
                         await context.Database.ExecuteSqlRawAsync("EXEC [MkSoft].[ConvertToDoklady2025] @LogId", pLogId);
 
@@ -202,6 +204,18 @@ namespace ApiTestClient
                 Email = apiDoc.Email,
                 PaymentType = apiDoc.PaymentType,
                 InvoiceNumber = apiDoc.InvoiceNumber,
+
+                SubType = apiDoc.SubType,
+                TaxPointDate = apiDoc.TaxPointDate,
+                VatCategory = apiDoc.VatCategory,
+                Note = apiDoc.Note,
+                CustomText = apiDoc.CustomText,
+                OtherCurrency = apiDoc.OtherCurrency,
+                OtherTotalPrice = apiDoc.OtherTotalPrice,
+
+
+
+
                 Address = apiDoc.Address == null ? null : new DataAccess.Entities.Address
                 {
                     StreetName = apiDoc.Address.StreetName,
@@ -344,6 +358,7 @@ namespace ApiTestClient
 
         private async void btnGetFilenames_Click(object sender, EventArgs e)
         {
+            _dokladoService.ApiKey = textBoxApiKey.Text;
             // Configure DbContextOptions with the connection string
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseSqlServer(connectionString)

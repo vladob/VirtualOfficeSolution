@@ -20,7 +20,7 @@ namespace APIServiceDoklado
     {
         private readonly HttpClient _httpClient;
         private readonly DokladoApiSchemaClient _apiClient;
-        private readonly string? _apiKey;
+        public string? ApiKey { get; set; }
         public string? CompanyId { get; set; }
 
         public DokladoService()
@@ -35,17 +35,19 @@ namespace APIServiceDoklado
             _httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler()));
 
             // Retrieve API key from environment variable
-            _apiKey = Environment.GetEnvironmentVariable("DOKLADO_API_KEY");
-            if (string.IsNullOrEmpty(_apiKey))
-            {
-                _apiKey = "ebt5bhbh98c-2a4ta3-4ucq83-9ovrb4-fb99l4aqbr-6bbqbdb";
-            }
+            if (ApiKey == null) ApiKey = Environment.GetEnvironmentVariable("DOKLADO_API_KEY");
+            //if (string.IsNullOrEmpty(ApiKey))
+            //{
+            if (ApiKey == null) ApiKey = "ebt5bhbh98c-2a4ta3-4ucq83-9ovrb4-fb99l4aqbr-6bbqbdb";
+                //ApiKey = "1951a88eaa9-m9jgag-4s6m9n-9b5c8m-vbm85o81as-0687b6b";
+
+            //}
 
             // Add the Authorization header with the API key
-            if (!string.IsNullOrEmpty(_apiKey))
+            if (!string.IsNullOrEmpty(ApiKey))
             {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
-                _httpClient.DefaultRequestHeaders.Add("api_key", _apiKey);
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+                _httpClient.DefaultRequestHeaders.Add("api_key", ApiKey);
                 _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
 
@@ -70,7 +72,7 @@ namespace APIServiceDoklado
 
                 // Update continuationToken for next page
                 continuationToken = result.ContinuationToken;
-
+                // continuationToken = null;
 
             } while (!string.IsNullOrEmpty(continuationToken));
 
@@ -111,17 +113,35 @@ namespace APIServiceDoklado
         {
             // Make the API call with the necessary headers and parameters
 
-            // Construct the request payload
+            /*
+                        // Construct the request payload
+                        var request = new InputData
+                        {
+                            Data = new InputParameters
+                            {
+                                //OrganizationId = "36206075",
+                                OrganizationId = CompanyId,
+                                IsExported = false,
+                                DateFrom = fromDate, // Force UTC
+                                DateType = InputParametersDateType.Create,   // Optional sorting
+                                ContinuationToken = continuationToken
+                            }
+                        };
+            */
+
             var request = new InputData
             {
                 Data = new InputParameters
                 {
-                    //OrganizationId = "36206075",
                     OrganizationId = CompanyId,
                     IsExported = false,
-                    DateFrom = fromDate, // Force UTC
-                    DateType = InputParametersDateType.Create,   // Optional sorting
-                    ContinuationToken = continuationToken
+                    DateFrom = fromDate,
+                    DateType = InputParametersDateType.Create,
+
+                    // New API format: send the token inside searchAfter array
+                    SearchAfter = string.IsNullOrWhiteSpace(continuationToken)
+            ? null
+            : new List<string> { continuationToken }
                 }
             };
 
@@ -201,7 +221,16 @@ namespace APIServiceDoklado
                 VatAmountTaxFree = data.AdditionalProperties.TryGetValue("vatAmountTaxFree", out var vatAmountTaxFree) && decimal.TryParse(vatAmountTaxFree.ToString(), out var vatAmountTaxFreeDecimal) ? vatAmountTaxFreeDecimal : 0,
                 VatRateBasic = data.AdditionalProperties.TryGetValue("vatRateBasic", out var vatRateBasic) && decimal.TryParse(vatRateBasic.ToString(), out var vatRateBasicDecimal) ? vatRateBasicDecimal : 0,
                 VatRateReduced = data.AdditionalProperties.TryGetValue("vatRateReduced", out var vatRateReduced) && decimal.TryParse(vatRateReduced.ToString(), out var vatRateReducedDecimal) ? vatRateReducedDecimal : 0,
-                VatRateTaxFree = data.AdditionalProperties.TryGetValue("vatRateTaxFree", out var vatRateTaxFree) && decimal.TryParse(vatRateTaxFree.ToString(), out var vatRateTaxFreeDecimal) ? vatRateTaxFreeDecimal : 0
+                VatRateTaxFree = data.AdditionalProperties.TryGetValue("vatRateTaxFree", out var vatRateTaxFree) && decimal.TryParse(vatRateTaxFree.ToString(), out var vatRateTaxFreeDecimal) ? vatRateTaxFreeDecimal : 0,
+
+                SubType = data.AdditionalProperties.TryGetValue("subType", out var subType) ? subType.ToString() : null,
+                TaxPointDate = data.AdditionalProperties.TryGetValue("taxPointDate", out var taxPointDate) && DateTime.TryParse(taxPointDate.ToString(), out var TaxPointDateD) ? TaxPointDateD : default,
+                VatCategory = data.AdditionalProperties.TryGetValue("vatCategory", out var vatCategory) ? vatCategory.ToString() : null,
+                Note = data.AdditionalProperties.TryGetValue("note", out var note) ? note.ToString() : null,
+                CustomText = data.AdditionalProperties.TryGetValue("customText", out var customText) ? customText.ToString() : null,
+                OtherCurrency = data.AdditionalProperties.TryGetValue("otherCurrency", out var otherCurrency) ? otherCurrency.ToString() : null,
+                OtherTotalPrice = data.AdditionalProperties.TryGetValue("otherTotalPrice", out var otherTotalPrice) && decimal.TryParse(otherTotalPrice.ToString(), out var otherTotalPriceDecimal) ? otherTotalPriceDecimal : 0
+
             };
 
             // Extract the `address` object

@@ -87,7 +87,8 @@ namespace APIServiceDoklado
                 throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/documents");
+//            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/documents");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v2/documents");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -114,6 +115,8 @@ namespace APIServiceDoklado
                     try
                     {
                         var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        string responseTextDebug = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -727,9 +730,11 @@ namespace APIServiceDoklado
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
 
+            var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
             if (ReadResponseAsString)
             {
-                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                //var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
                     var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
@@ -747,11 +752,14 @@ namespace APIServiceDoklado
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                     using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
-                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                        //var jsonTextReaderDebug = new Newtonsoft.Json.JsonTextReader(streamReader);
+                        using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                        {
+                            var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                            var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                            return new ObjectResponseResult<T>(typedBody, string.Empty);
+                        }
                     }
                 }
                 catch (Newtonsoft.Json.JsonException exception)
@@ -853,6 +861,12 @@ namespace APIServiceDoklado
         /// </summary>
         [Newtonsoft.Json.JsonProperty("continuationToken", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ContinuationToken { get; set; }
+
+        /// <summary>
+        /// Values used for pagination (token or date values).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("searchAfter", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<string> SearchAfter { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -1706,11 +1720,11 @@ namespace APIServiceDoklado
         /// </summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
-
+/*
         [Newtonsoft.Json.JsonProperty("subType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ManualReceiptTypeType? SubType { get; set; }
-
+*/
         [Newtonsoft.Json.JsonProperty("receiptUID", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReceiptUID { get; set; }
 
@@ -1839,6 +1853,36 @@ namespace APIServiceDoklado
         /// </summary>
         [Newtonsoft.Json.JsonProperty("paymentType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PaymentType { get; set; }
+
+
+        [Newtonsoft.Json.JsonProperty("subType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? SubType { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("taxPointDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset TaxPointDate { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("vatCategory", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? VatCategory { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("customText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? CustomText { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("otherCurrency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? OtherCurrency { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("otherTotalPrice", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public decimal? OtherTotalPrice { get; set; }
+
+
+
+
+
+
+
+
+
+
+
 
         [Newtonsoft.Json.JsonProperty("items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ExportItem> Items { get; set; }
